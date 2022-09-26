@@ -34,47 +34,50 @@ export const loader = async ({ params }: any) => {
   const configuration = {
     environment: process.env.ADYEN_ENVIRONMENT,
     clientKey: process.env.ADYEN_CLIENT_KEY,
-    analytics: {
-      enabled: false,
-    },
-    session: {
-      id: sessions.id,
-      sessionData: sessions.sessionData,
-    },
-    onPaymentCompleted: (result: any, component: any) => {
-      console.info(result, component);
-    },
-    onError: (error: any, component: any) => {
-      console.error(error.name, error.message, error.stack, component);
-    },
-    paymentMethodsConfiguration: {
-      card: {
-        hasHolderName: true,
-        holderNameRequired: true,
-        billingAddressRequired: false,
-        name: 'Credit or debit card',
-      },
-    },
   };
 
-  return { order, configuration };
+  return { order, configuration, sessions };
 };
 
 const OrderDetail = () => {
-  const { order, configuration } = useLoaderData();
+  const { order, configuration, sessions } = useLoaderData();
   const paymentContainer = React.useRef(null);
 
   React.useEffect(() => {
     const startInitPayment = async () => {
       try {
-        const checkout = await AdyenCheckout(configuration);
+        const adyenConfiguration = {
+          ...configuration,
+          analytics: {
+            enabled: false,
+          },
+          session: {
+            id: sessions.id,
+            sessionData: sessions.sessionData,
+          },
+          onPaymentCompleted: (result: any, component: any) => {
+            console.info(result, component);
+          },
+          onError: (error: any, component: any) => {
+            console.error(error.name, error.message, error.stack, component);
+          },
+          paymentMethodsConfiguration: {
+            card: {
+              hasHolderName: true,
+              holderNameRequired: true,
+              billingAddressRequired: false,
+              name: 'Credit or debit card',
+            },
+          },
+        };
+        const checkout = await AdyenCheckout(adyenConfiguration);
         checkout.create('dropin').mount(paymentContainer.current);
       } catch (error) {
         console.error(error);
       }
     };
     startInitPayment();
-  }, [order.id, configuration]);
+  }, [order.id, configuration, sessions]);
 
   return (
     <>

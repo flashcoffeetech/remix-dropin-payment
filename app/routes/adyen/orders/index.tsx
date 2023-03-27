@@ -20,7 +20,7 @@ const OrderList = () => {
     <>
       <div className="page-header">
         <h1>Order List</h1>
-        <Link to={{ pathname: '/orders/new' }} className="btn">
+        <Link to={{ pathname: '/adyen/orders/new' }} className="btn">
           new
         </Link>
       </div>

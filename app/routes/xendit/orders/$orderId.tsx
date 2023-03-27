@@ -36,7 +36,7 @@ export const loader = async ({ params, request }: any) => {
       },
     });
 
-    redirect(`orders/${order.id}`);
+    redirect(`/xendit/orders/${order.id}`);
   }
 
   return {
@@ -55,7 +55,7 @@ export const action = async ({ request, params }: any) => {
       where: { id: params.orderId },
     });
 
-    return redirect('/orders');
+    return redirect('/xendit/orders');
   }
 };
 
@@ -66,7 +66,7 @@ const OrderDetail = () => {
     <>
       <div className="page-header">
         <h1>Order Detail</h1>
-        <Link to={{ pathname: '/orders' }} className="btn-reverse">
+        <Link to={{ pathname: '/xendit/orders' }} className="btn-reverse">
           back
         </Link>
       </div>
@@ -121,7 +121,7 @@ const OrderDetail = () => {
       <div className="page-footer">
         {!redirectResult.sessionId && order.status !== 'COMPLETED' && (
           <Link
-            to={{ pathname: `/orders/checkout/${order.id}` }}
+            to={{ pathname: `/xendit/orders/checkout/${order.id}` }}
             className="btn btn-delete"
           >
             pay

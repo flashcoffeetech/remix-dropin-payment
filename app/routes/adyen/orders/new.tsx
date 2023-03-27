@@ -12,7 +12,7 @@ export const action = async ({ request }: any) => {
 
   const order = await db.order.create({ data: fields });
 
-  return redirect(`/orders/${order.id}`);
+  return redirect(`/adyen/orders/${order.id}`);
 };
 
 const NewOrder = () => {
@@ -20,7 +20,7 @@ const NewOrder = () => {
     <>
       <div className="page-header">
         <h1>New Order</h1>
-        <Link to={{ pathname: '/orders' }} className="btn-reverse">
+        <Link to={{ pathname: '/adyen//orders' }} className="btn-reverse">
           back
         </Link>
       </div>

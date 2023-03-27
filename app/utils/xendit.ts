@@ -5,27 +5,51 @@ interface ICreateInvoice {
 	amount: number;
 	payer_email: string;
 	description: string;
-	payment_methods?: string[];
-  failure_redirect_url?: string;
-  success_redirect_url?: string;
 }
 
 const createInvoice = async (params: ICreateInvoice) => {
 	const response = await axios.post(
 		'https://api.xendit.co/v2/invoices',
-		params,
+		{
+			...params,
+			payment_methods: [
+				'CREDIT_CARD',
+				'BCA',
+				'BNI',
+				'BSI',
+				'BRI',
+				'MANDIRI',
+				'PERMATA',
+				'SAHABAT_SAMPOERNA',
+				'ALFAMART',
+				'INDOMARET',
+				'OVO',
+				'DANA',
+				'SHOPEEPAY',
+				'LINKAJA',
+				'DD_BRI',
+				'DD_BCA_KLIKPAY',
+				'KREDIVO',
+				'AKULAKU',
+				'UANGME',
+				'ATOME',
+				'QRIS',
+			],
+			success_redirect_url: `http:\\localhost:3001/xendit/orders/${params.external_id}`,
+			failure_redirect_url: `http:\\localhost:3001/xendit/orders/${params.external_id}`,
+		},
 		{
 			headers: {
 				'Content-Type': 'application/json',
 			},
-      auth: {
-        username: 'xnd_development_OomAfOUth+GowsY6LeJOHzLCZtSj84J9kXDn+Rxj/mHW+byhDQVxhg==',
-        password: '',
-      }
+			auth: {
+				username: process.env.XENDIT_KEY || '',
+				password: '',
+			},
 		},
 	);
 
-  return response;
+	return response;
 };
 
 export const Xendit = {

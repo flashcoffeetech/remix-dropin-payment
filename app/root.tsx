@@ -41,6 +41,9 @@ const Layout = ({ children }: any) => {
 					<li>
 						<Link to={{ pathname: '/xendit/orders' }}>Xendit</Link>
 					</li>
+					<li>
+						<Link to={{ pathname: '/midtrans/orders' }}>Midtrans</Link>
+					</li>
 				</ul>
 			</nav>
 			<div className="container">{children}</div>
@@ -54,6 +57,12 @@ const Document = ({ children, title }: any) => {
 			<head>
 				<Links />
 				<Meta />
+				{/* MIDTRANS */}
+				<script
+					type="text/javascript"
+					src="https://app.sandbox.midtrans.com/snap/snap.js"
+					data-client-key="SB-Mid-client-1fuVjw6Qpb83kttL"
+				></script>
 			</head>
 			<body>
 				{children}
